@@ -1,6 +1,7 @@
 package com.example.cc15.anwesha2017;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.os.Handler;
 
+import com.example.cc15.anwesha2017.activities.RegistrationActivity;
+
 
 public class WelcomeScreen extends AppCompatActivity {
 
@@ -24,6 +27,18 @@ public class WelcomeScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                .getBoolean("isFirstRun", true);
+
+        if (isFirstRun) {
+            //show start activity
+            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                    .putBoolean("isFirstRun", false).commit();
+            startActivity(new Intent(WelcomeScreen.this, RegistrationActivity.class));
+
+        }
+
+        else {
         setContentView(R.layout.activity_welcome_screen);
 
         AnimationSet s1 = new AnimationSet(false);
@@ -46,15 +61,16 @@ public class WelcomeScreen extends AppCompatActivity {
         logo.startAnimation(s1);
         textView.startAnimation(r4);
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                finish();
-                Intent i3 = new Intent(WelcomeScreen.this, Home.class);
-                startActivity(i3);
-            }
-        }, 6000);
 
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    finish();
+                    Intent i3 = new Intent(WelcomeScreen.this, Home.class);
+                    startActivity(i3);
+                }
+            }, 6000);
+        }
     }
 
 }
