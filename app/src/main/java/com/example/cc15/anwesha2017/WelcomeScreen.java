@@ -1,5 +1,6 @@
 package com.example.cc15.anwesha2017;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Looper;
@@ -23,19 +24,19 @@ public class WelcomeScreen extends AppCompatActivity {
 
     ImageView logo;
     TextView textView;
+    public int count=0;
+    int tempInt = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
-                .getBoolean("isFirstRun", true);
-
-        if (isFirstRun) {
-            //show start activity
-            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
-                    .putBoolean("isFirstRun", false).commit();
-            startActivity(new Intent(WelcomeScreen.this, RegistrationActivity.class));
-
+        count = readSharedPreferenceInt("cntSP","cntKey");
+        if(count==0){
+            Intent intent = new Intent();
+            intent.setClass(WelcomeScreen.this, RegistrationActivity.class);
+            startActivity(intent);
+            count++;
+            writeSharedPreference(count, "cntSP", "cntKey");
         }
 
         else {
@@ -73,4 +74,19 @@ public class WelcomeScreen extends AppCompatActivity {
         }
     }
 
+    //Read from Shared Preferance
+    public int readSharedPreferenceInt(String spName,String key){
+        SharedPreferences sharedPreferences = getSharedPreferences(spName, Context.MODE_PRIVATE);
+        return tempInt = sharedPreferences.getInt(key, 0);
+    }
+
+    //write shared preferences in integer
+    public void writeSharedPreference(int ammount,String spName,String key ){
+
+        SharedPreferences sharedPreferences = getSharedPreferences(spName, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt(key, ammount);
+        editor.commit();
+    }
 }
