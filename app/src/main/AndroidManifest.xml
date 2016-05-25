@@ -19,7 +19,16 @@
             android:name=".activities.Home"
             android:label="@string/title_activity_home"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".activities.RegistrationActivity"></activity>
+        <activity android:name=".activities.RegistrationActivity" />
+        <activity
+            android:name=".activities.About"
+            android:label="@string/title_activity_about"
+            android:parentActivityName=".activities.Home"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.cc15.anwesha2017.activities.Home" />
+        </activity>
     </application>
 
 </manifest>
